@@ -75,7 +75,7 @@ export class LoggerFactory {
     return format.printf(info => {
       const message = info.message as any;
       let dspMessage: string;
-      if (message.stack) {
+      if (message && message.stack) {
         // 메세지 대신 에러 오프젝트(stack이 포함된)가 전달된 경우
         dspMessage = message.stack + '\nerror detail : ' + JSON.stringify(info, undefined, 2);
       } else if (typeof message === 'object') {
@@ -96,7 +96,7 @@ export class LoggerFactory {
 
   /* CloudWatch 메시지 포멧 */
   private cloudWatchMessageFormat(info: any): string {
-    if (info.message.stack) {
+    if (info.message && info.message.stack) {
       // 메세지 대신 에러 오프젝트(stack이 포함된)가 전달된 경우
       const stack = (info.message.stack.split('\n') as string[]).map(v => v.trim());
       info.stack = stack;
