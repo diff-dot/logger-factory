@@ -36,7 +36,7 @@ export class LoggerFactory {
     if (!groupName) {
       throw new Error('groupName 또는 groupDepthedName 둘중 하나는 반드시 지정되어야 합니다.');
     }
-    const cloudwatchGroupName = `/${packageName}/${this.config.env}/${groupName}`;
+    const cloudwatchGroupName = `/${packageName}/${ConfigManager.env}/${groupName}`;
 
     const logger = winston.createLogger({
       level: this.config.data.logger.console.level,
