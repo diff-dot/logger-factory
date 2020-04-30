@@ -10,8 +10,19 @@ export class LoggerFactory {
   private static orgConsoleErrorMethod?: Function;
   private readonly options: LoggerOptions;
 
-  constructor(options: LoggerOptions) {
-    this.options = options;
+  constructor(options?: LoggerOptions) {
+    this.options = options || {
+      file: {
+        level: 'error'
+      },
+      console: {
+        level: 'info'
+      },
+      cloudWatch: {
+        level: 'error',
+        region: 'ap-northeast-2'
+      }
+    };
   }
 
   public create(args: { packageName?: string; groupName?: string; groupDepthedName?: string[]; streamName?: string; region?: string }): Logger {
