@@ -1,2 +1,2 @@
 export { LoggerFactory } from './LoggerFactory';
-export { LoggerConfig } from './LoggerConfig';
+export { LoggerOptions } from './LoggerOptions';

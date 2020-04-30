@@ -1,9 +1,20 @@
 import '../bootstrap';
 import { LoggerFactory } from '../../src/LoggerFactory';
-import { config } from '../config';
 
 // 로거를 통한 콘솔 메세지 capture 시 표시 또는 저장 형식 확인
-const factory = new LoggerFactory(config);
+const factory = new LoggerFactory({
+  file: {
+    level: 'info'
+  },
+  console: {
+    level: 'info'
+  },
+  cloudWatch: {
+    level: 'info',
+    region: 'ap-northeast-2'
+  }
+});
+
 const logger = factory.create({
   groupDepthedName: ['test'],
   packageName: 'logger-factory'

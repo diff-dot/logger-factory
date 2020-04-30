@@ -1,17 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import winston, { Logger, format } from 'winston';
 import WinstonCloudWatch from 'winston-cloudwatch';
-import { LoggerConfig } from './LoggerConfig';
-import { ConfigManager } from '@diff./config-manager';
 import path from 'path';
 import os from 'os';
+import { ConfigManager } from '@diff./config-manager';
+import { LoggerOptions } from './LoggerOptions';
 
 export class LoggerFactory {
   private static orgConsoleErrorMethod?: Function;
-  private readonly config: ConfigManager<LoggerConfig>;
+  private readonly options: LoggerOptions;
 
-  constructor(config: ConfigManager<LoggerConfig>) {
-    this.config = config;
+  constructor(options: LoggerOptions) {
+    this.options = options;
   }
 
   public create(args: { packageName?: string; groupName?: string; groupDepthedName?: string[]; streamName?: string; region?: string }): Logger {
@@ -39,7 +39,7 @@ export class LoggerFactory {
     const cloudwatchGroupName = `/${packageName}/${ConfigManager.env}/${groupName}`;
 
     const logger = winston.createLogger({
-      level: this.config.data.logger.console.level,
+      level: this.options.console.level,
       levels: winston.config.syslog.levels,
       transports: [
         new winston.transports.Console({
@@ -56,9 +56,9 @@ export class LoggerFactory {
       new WinstonCloudWatch({
         logGroupName: cloudwatchGroupName,
         logStreamName: streamName,
-        level: this.config.data.logger.cloudWatch.level,
+        level: this.options.cloudWatch.level,
         messageFormatter: this.cloudWatchMessageFormat,
-        awsRegion: args.region || this.config.data.logger.cloudWatch.region,
+        awsRegion: args.region || this.options.cloudWatch.region,
         uploadRate: 2000,
         errorHandler: err => {
           if (LoggerFactory.orgConsoleErrorMethod) LoggerFactory.orgConsoleErrorMethod(err);
