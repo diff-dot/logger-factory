@@ -70,7 +70,7 @@ export class LoggerFactory {
         level: this.options.cloudWatch.level,
         messageFormatter: this.cloudWatchMessageFormat,
         awsRegion: args.region || this.options.cloudWatch.region,
-        uploadRate: 60000,
+        uploadRate: 15000,
         errorHandler: err => {
           if (LoggerFactory.orgConsoleErrorMethod) LoggerFactory.orgConsoleErrorMethod(err);
           else console.error(err);
